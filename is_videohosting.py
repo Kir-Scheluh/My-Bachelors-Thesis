@@ -27,6 +27,3 @@ def is_vk_url(url):
     pattern = r'(https?://)?(www\.)?vk\.com/video(\w+)?'
     match = re.search(pattern, url)
     return match is not None
-
-
-print(is_video_hosting("https://rutube.ru/video/3b8f5254b444bbadca71712d29a95d4a/"))
