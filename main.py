@@ -1,3 +1,5 @@
+from search import general_search
+
 while True:
     current_command = input("Главное меню: \n"
                             "1 - анализ \n"
@@ -5,12 +7,12 @@ while True:
                             "3 - выход \n")
     print(current_command)
     if current_command == "1":
-        pass
-        # Функция для анализа
+        url = input("Введите url для запроса: ")
+        general_search(url)
     elif current_command == "2":
         pass
         # Функция для просмотра
     elif current_command == "3":
         break
     else:
-        print("Неизвестная команда")
+        print(f"Неизвестная команда: '{current_command}'")
