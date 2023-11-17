@@ -3,10 +3,11 @@ import socket
 import requests
 import ssl
 import urllib3
-
+#Импорты для работы программы
 from search_engines import Yahoo
 from search_engines import Google
 from search_engines import Ask
+from search_engines import Startpage
 from filter_search_results import filter_results
 from data_visualization import horizontal_histogram
 from get_title import get_html_title
@@ -37,7 +38,8 @@ def general_search(url):
 
     result = {'Yahoo': filter_results(search_with_yahoo(str(query))),
               'Google': filter_results(search_with_google(str(query))),
-              'Ask': filter_results(search_with_Ask(str(query)))}
+              'Ask': filter_results(search_with_ask(str(query))),
+              'Startpage': filter_results(search_with_startpage(str(query)))}
     names = list(result.keys())
     data = []
     for i in result.values():
@@ -65,8 +67,15 @@ def search_with_google(query):
     return output
 
 
-def search_with_Ask(query):
+def search_with_ask(query):
     engine = Ask()
+    search_result = engine.search(str(query))
+    output = {'hosts': search_result.hosts(), 'titles': search_result.titles(), 'links': search_result.links()}
+
+    return output
+
+def search_with_startpage(query):
+    engine = Startpage()
     search_result = engine.search(str(query))
     output = {'hosts': search_result.hosts(), 'titles': search_result.titles(), 'links': search_result.links()}
 
