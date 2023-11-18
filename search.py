@@ -34,6 +34,9 @@ def general_search(url):
     except urllib3.exceptions.NameResolutionError:
         print("Ошибка: urllib3.exceptions.NameResolutionError")
         return urllib3.exceptions.NameResolutionError
+    except ssl.SSLCertVerificationError:
+        print("Ошибка: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired")
+        return ssl.SSLCertVerificationError
     print(f'Запрос: {query}')
 
     result = {'Yahoo': filter_results(search_with_yahoo(str(query))),
@@ -43,7 +46,7 @@ def general_search(url):
     names = list(result.keys())
     data = []
     for i in result.values():
-        data.append(len(i["hosts"]))
+        data.append(len(i))
 
     print('Количество результатов:')
     horizontal_histogram(data, names)
@@ -54,7 +57,7 @@ def general_search(url):
 def search_with_yahoo(query):
     engine = Yahoo()
     search_result = engine.search(str(query))
-    output = {'hosts': search_result.hosts(), 'titles': search_result.titles(), 'links': search_result.links()}
+    output = search_result.links()
 
     return output
 
@@ -62,7 +65,7 @@ def search_with_yahoo(query):
 def search_with_google(query):
     engine = Google()
     search_result = engine.search(str(query))
-    output = {'hosts': search_result.hosts(), 'titles': search_result.titles(), 'links': search_result.links()}
+    output = search_result.links()
 
     return output
 
@@ -70,13 +73,13 @@ def search_with_google(query):
 def search_with_ask(query):
     engine = Ask()
     search_result = engine.search(str(query))
-    output = {'hosts': search_result.hosts(), 'titles': search_result.titles(), 'links': search_result.links()}
+    output = search_result.links()
 
     return output
 
 def search_with_startpage(query):
     engine = Startpage()
     search_result = engine.search(str(query))
-    output = {'hosts': search_result.hosts(), 'titles': search_result.titles(), 'links': search_result.links()}
+    output = search_result.links()
 
     return output
