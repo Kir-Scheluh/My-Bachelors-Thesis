@@ -1,4 +1,5 @@
 from search import general_search
+from get_title import get_html_title
 
 while True:
     current_command = input("Главное меню: \n"
@@ -8,7 +9,8 @@ while True:
     print(current_command)
     if current_command == "1":
         url = input("Введите url для запроса: ")
-        general_search(url)
+        query = get_html_title(url)
+        general_search(query)
     elif current_command == "2":
         pass
         # Функция для просмотра
