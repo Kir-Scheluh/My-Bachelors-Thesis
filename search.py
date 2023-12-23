@@ -1,9 +1,9 @@
-#Импорты для обработки ошибок
+# Импорты для обработки ошибок
 import socket
 import requests
 import ssl
 import urllib3
-#Импорты для работы программы
+# Импорты для работы программы
 from search_engines import Yahoo
 from search_engines import Google
 from search_engines import Ask
@@ -26,6 +26,9 @@ def general_search(url):
     except AttributeError:
         print("Ошибка при считывании заголовка страницы")
         return AttributeError
+    except ssl.SSLCertVerificationError:
+        print("Ошибка: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired")
+        return ssl.SSLCertVerificationError
     except ssl.SSLError:
         print("Ошибка: sslv3 alert handshake failure")
         return ssl.SSLError
@@ -35,9 +38,6 @@ def general_search(url):
     except urllib3.exceptions.NameResolutionError:
         print("Ошибка: urllib3.exceptions.NameResolutionError")
         return urllib3.exceptions.NameResolutionError
-    except ssl.SSLCertVerificationError:
-        print("Ошибка: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired")
-        return ssl.SSLCertVerificationError
     print(f'Запрос: {query}')
 
     result = {'Yahoo': filter_results(search_with_yahoo(str(query))),
@@ -79,12 +79,14 @@ def search_with_ask(query):
 
     return output
 
+
 def search_with_startpage(query):
     engine = Startpage()
     search_result = engine.search(str(query))
     output = search_result.links()
 
     return output
+
 
 def search_with_bing(query):
     engine = Bing()
