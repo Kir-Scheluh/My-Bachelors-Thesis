@@ -1,6 +1,6 @@
 from search import general_search
 from analysis import get_query
-from view import view
+from browse import browse
 import json
 
 while True:
@@ -18,7 +18,11 @@ while True:
                 with open(f".\\results\\{query}.json", "w") as f:
                     json.dump(result, f)
         case "2":
-            view()
+            # Выбрать категорию
+            # Выбрать запрос
+            # Передать синтетический запрос в функцию
+            query = input("Введите запрос")
+            browse(query)
 
         case "3":
             break
