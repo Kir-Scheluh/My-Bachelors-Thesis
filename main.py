@@ -1,5 +1,7 @@
 from search import general_search
 from analysis import get_query
+from view import view
+import json
 
 while True:
     command_select = input("Главное меню: \n"
@@ -9,14 +11,15 @@ while True:
     print(command_select)
     match command_select:
         case "1":
-            query = get_query()
+            query, prompt = get_query()
 
             if query != "0":
-                result = general_search(query)
-
+                result = general_search(prompt)
+                with open(f".\\results\\{query}.json", "w") as f:
+                    json.dump(result, f)
         case "2":
-            pass
-            # Функция для просмотра
+            view()
+
         case "3":
             break
         case _:

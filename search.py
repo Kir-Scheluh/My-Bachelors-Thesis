@@ -22,7 +22,15 @@ def general_search(query):
     print('Количество результатов:')
     horizontal_histogram(data, names)
 
-    return result
+    merged_dict = {}
+    for sub_dict in result.values():
+        merged_dict.update(sub_dict)
+    merged_dict = {key: value for key, value in merged_dict.items() if
+                     list(merged_dict.values()).count(value) == 1}
+
+
+
+    return merged_dict
 
 
 def search_with(query, engine):

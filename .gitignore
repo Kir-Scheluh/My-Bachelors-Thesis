@@ -6,3 +6,4 @@ output.xlsx
 results.txt
 testing_the_system.py
 Search-Engines-Scraper/
+*.json
