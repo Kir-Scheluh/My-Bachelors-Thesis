@@ -9,9 +9,6 @@ from data_visualization import horizontal_histogram
 
 
 def general_search(query):
-    if type(query) == Exception:
-        return 0
-
     result = {'Yahoo': search_with(str(query), Yahoo),
               'Google': search_with(str(query), Google),
               'Ask': search_with(str(query), Ask),
