@@ -1,7 +1,8 @@
-from search import general_search
-from analysis import get_query
 from browse import browse
+from analisys import analisys
 import json
+
+from get_query import get_query
 
 while True:
     command_select = input("Главное меню: \n"
@@ -12,17 +13,10 @@ while True:
     match command_select:
         case "1":
             query, prompt = get_query()
-
-            if query != "0":
-                result = general_search(prompt)
-                with open(f".\\results\\{query}.json", "w") as f:
-                    json.dump(result, f)
+            analisys(query, prompt)
         case "2":
-            # Выбрать категорию
-            # Выбрать запрос
-            # Передать синтетический запрос в функцию
-            query = input("Введите запрос")
-            browse(query)
+            query = get_query()
+            browse(query[0])
 
         case "3":
             break
