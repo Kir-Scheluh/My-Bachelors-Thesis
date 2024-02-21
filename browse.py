@@ -61,6 +61,6 @@ def get_file_type_from_url(url):
     elif ('.pptx' in path):
         return '.pptx'
     else:
-        return 'not recognized'
+        return ''
 
 # subprocess.Popen("some_pdf", shell=True)
