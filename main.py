@@ -3,6 +3,9 @@ from analisys import analisys
 import json
 
 from get_query import get_query
+from  file_encryption import load_key
+
+
 
 while True:
     command_select = input("Главное меню: \n"

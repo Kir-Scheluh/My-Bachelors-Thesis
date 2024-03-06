@@ -8,3 +8,6 @@ testing_the_system.py
 Search-Engines-Scraper/
 *.json
 *.pdf
+*.key
+*.ppt
+*.txt
