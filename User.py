@@ -29,3 +29,5 @@ class User:
                         is_admin = row['is_admin']
         return is_authorized, is_admin
 
+    def create_user(self, path_to_df="users_info.csv"):
+        is_authorized, is_admin = self.check_login_info(path_to_df)
