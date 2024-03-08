@@ -25,7 +25,7 @@ class User:
             if row['login'] == self.login:
                 if row['password'] == self.password:
                     if datetime.datetime.strptime(row['ttl'], '%Y-%m-%d').date() > datetime.date.today():
-                        is_logged = True
+                        is_authorized = True
                         is_admin = row['is_admin']
         return is_authorized, is_admin
 
