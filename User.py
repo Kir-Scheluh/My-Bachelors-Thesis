@@ -1,5 +1,7 @@
 import json
 import datetime
+
+import numpy as np
 import pandas as pd
 
 import file_encryption as fe
@@ -45,3 +47,18 @@ class User:
         df.to_csv(path_to_df)
         fe.file_encrypt(path_to_df, self.key)
 
+    def delete_user(self, path_to_df="users_info.csv"):
+        is_deleted = False
+        is_authorized, is_admin = self.check_login_info(path_to_df)
+        if not (is_authorized and is_admin):
+            return
+        login = input('Введите логин')
+        fe.file_decrypt(path_to_df, self.key)
+        df = pd.read_csv(path_to_df)
+        for index, row in df.iterrows():
+            if row['login'] == self.login:
+                df = df.drop(np.where(df['login'] == login)[0])
+                is_deleted = True
+        df.to_csv(path_to_df)
+        fe.file_encrypt(path_to_df, self.key)
+        return is_deleted
