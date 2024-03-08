@@ -36,13 +36,17 @@ class User:
         if not (is_authorized and is_admin):
             return
 
+        fe.file_decrypt(path_to_df, self.key)
+        df = pd.read_csv(path_to_df)
+
         login = input('Введите логин')
+        for index, row in df.iterrows():
+            if row['login'] == login:
+                print("Такой логин уже существует!")
         password = input('Введите пароль')
         roots = input('Права администратора [true/false]')
         ttl = input('Введите срок жизни учетной записи [%Y-%m-%d]')
 
-        fe.file_decrypt(path_to_df, self.key)
-        df = pd.read_csv(path_to_df)
         df.loc[len(df.index)] = [login, password, roots, ttl]
         df.to_csv(path_to_df)
         fe.file_encrypt(path_to_df, self.key)
