@@ -27,4 +27,5 @@ class User:
                     if datetime.datetime.strptime(row['ttl'], '%Y-%m-%d').date() > datetime.date.today():
                         is_logged = True
                         is_admin = row['is_admin']
+        return is_authorized, is_admin
 
