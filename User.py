@@ -14,7 +14,7 @@ class User:
         self.key = key
 
     def check_login_info(self, path_to_df="users_info.csv"):
-        is_logged = False
+        is_authorized = False
         is_admin = False
 
         fe.file_decrypt(path_to_df, self.key)
@@ -27,6 +27,4 @@ class User:
                     if datetime.datetime.strptime(row['ttl'], '%Y-%m-%d').date() > datetime.date.today():
                         is_logged = True
                         is_admin = row['is_admin']
-        return is_logged, is_admin
-
 
