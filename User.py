@@ -1,4 +1,3 @@
-import json
 import datetime
 
 import numpy as np
@@ -7,7 +6,7 @@ import pandas as pd
 import file_encryption as fe
 
 
-# DF: login[str(hash)], password[str(hash), is_admin[bool], ttl[str(yyyy-mm-dd)]]
+# DF: login[str(hash)], password[str(hash)], is_admin[bool], ttl[str(yyyy-mm-dd)]]
 
 class User:
     def __init__(self, key, login, password):
