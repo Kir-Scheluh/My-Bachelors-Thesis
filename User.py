@@ -17,6 +17,9 @@ class User:
     @property
     def is_authorized(self):
         return self.__is_authorized
+    @property
+    def is_admin(self):
+        return self.__is_admin
     def check_login_info(self, path_to_df="users_info.csv"):
         is_authorized = False
         is_admin = False
@@ -24,7 +27,6 @@ class User:
         fe.file_decrypt(path_to_df, self.key)
         df = pd.read_csv(path_to_df)
         fe.file_encrypt(path_to_df, self.key)
-
         for index, row in df.iterrows():
             if row['login'] == self.login:
                 if row['password'] == self.password:
