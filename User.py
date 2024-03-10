@@ -1,4 +1,5 @@
 import datetime
+import hashlib
 
 import numpy as np
 import pandas as pd
@@ -10,8 +11,8 @@ import file_encryption as fe
 
 class User:
     def __init__(self, login, password):
-        self.login = login
-        self.password = password
+        self.login = hashlib.md5(login.encode()).hexdigest()
+        self.password = hashlib.md5(password.encode()).hexdigest()
         self.key = fe.load_key()
         self.__is_authorized, self.__is_admin = self.check_login_info()
     @property
@@ -41,11 +42,12 @@ class User:
 
         fe.file_decrypt(path_to_df, self.key)
         df = pd.read_csv(path_to_df)
-        login = input('Введите логин')
+        login = hashlib.md5(input('Введите логин').encode()).hexdigest()
         for index, row in df.iterrows():
             if row['login'] == login:
                 print("Такой логин уже существует!")
-        password = input('Введите пароль')
+                return
+        password = hashlib.md5(input('Введите пароль').encode()).hexdigest()
         roots = input('Права администратора [true/false]')
         ttl = input('Введите срок жизни учетной записи [%Y-%m-%d]')
 
@@ -57,11 +59,11 @@ class User:
         is_deleted = False
         if not (self.__is_authorized and self.__is_admin):
             return
-        login = input('Введите логин')
+        login = hashlib.md5(input('Введите логин').encode()).hexdigest()
         fe.file_decrypt(path_to_df, self.key)
         df = pd.read_csv(path_to_df)
         for index, row in df.iterrows():
-            if row['login'] == self.login:
+            if row['login'] == login:
                 df = df.drop(np.where(df['login'] == login)[0])
                 is_deleted = True
         df.to_csv(path_to_df)
