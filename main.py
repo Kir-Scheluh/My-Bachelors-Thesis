@@ -1,11 +1,18 @@
 from browse import browse
 from analisys import analisys
-import json
+from User import User
 
 from get_query import get_query
-from  file_encryption import load_key
 
-
+while True:
+    login = input("Введите логин: ")
+    password = input("Введите пароль: ")
+    user = User(login, password)
+    if user.is_authorized:
+        print("Успешно!")
+        break
+    else:
+        print("Неверные данные для входа")
 
 while True:
     command_select = input("Главное меню: \n"

@@ -9,11 +9,14 @@ import file_encryption as fe
 # DF: login[str(hash)], password[str(hash)], is_admin[bool], ttl[str(yyyy-mm-dd)]]
 
 class User:
-    def __init__(self, key, login, password):
+    def __init__(self, login, password):
         self.login = login
         self.password = password
-        self.key = key
-
+        self.key = fe.load_key()
+        self.__is_authorized, self.__is_admin = self.check_login_info()
+    @property
+    def is_authorized(self):
+        return self.__is_authorized
     def check_login_info(self, path_to_df="users_info.csv"):
         is_authorized = False
         is_admin = False
@@ -31,13 +34,11 @@ class User:
         return is_authorized, is_admin
 
     def create_user(self, path_to_df="users_info.csv"):
-        is_authorized, is_admin = self.check_login_info(path_to_df)
-        if not (is_authorized and is_admin):
+        if not (self.__is_authorized and self.__is_admin):
             return
 
         fe.file_decrypt(path_to_df, self.key)
         df = pd.read_csv(path_to_df)
-
         login = input('Введите логин')
         for index, row in df.iterrows():
             if row['login'] == login:
@@ -52,8 +53,7 @@ class User:
 
     def delete_user(self, path_to_df="users_info.csv"):
         is_deleted = False
-        is_authorized, is_admin = self.check_login_info(path_to_df)
-        if not (is_authorized and is_admin):
+        if not (self.__is_authorized and self.__is_admin):
             return
         login = input('Введите логин')
         fe.file_decrypt(path_to_df, self.key)
