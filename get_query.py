@@ -10,17 +10,17 @@ def get_query():
         match request_select:
             case "1":
                 theme = input("Введите тему учебного пособия: ")
-                query = 'filetype:pdf intext:"учебное пособие" ' + theme
+                query = f'filetype:pdf intitle:"учебное пособие" intext:"{theme}" '
                 theme += ' [учебные пособия]'
                 break
             case "2":
                 theme = input("Введите тему необходимого конспекта: ")
-                query = 'intext:"конспекты лекций" ' + theme
+                query = f'intitle:"конспект лекции" OR intitle:"конспект лекций" filetype:pdf OR filetype:doc OR filetype:docx intext:"{theme}"'
                 theme += ' [конспекты]'
                 break
             case "3":
                 theme = input("Введите тему презентации: ")
-                query = 'filetype:ppt intext:"лекция" ' + theme
+                query = f'intitle:"презентация" OR intitle:"презентации" filetype:pdf OR filetype:ppt OR filetype:pptx intext:"{theme}"'
                 theme += ' [презентации]'
                 break
             case "0":
