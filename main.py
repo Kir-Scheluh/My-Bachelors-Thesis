@@ -1,5 +1,5 @@
 from browse import browse
-from analisys import analisys
+from analisis import analysis
 from User import User
 
 from get_query import get_query
@@ -15,7 +15,7 @@ def authorization():
             while True:
                 main_menu(user)
         else:
-            print("Неверные данные для входа")
+            print("Неверные данные для входа!")
 
 
 def main_menu(user):
@@ -29,7 +29,7 @@ def main_menu(user):
         match command_select:
             case "1":
                 query, prompt = get_query()
-                analisys(query, prompt)
+                analysis(query, prompt)
             case "2":
                 query = get_query()
                 browse(query[0])

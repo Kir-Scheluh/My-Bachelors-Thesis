@@ -1,13 +1,9 @@
 import datetime
 import hashlib
-
 import numpy as np
 import pandas as pd
-
 import file_encryption as fe
 
-
-# DF: login[str(hash)], password[str(hash)], is_admin[bool], ttl[str(yyyy-mm-dd)]]
 
 class User:
     def __init__(self, login, password):
@@ -15,12 +11,15 @@ class User:
         self.password = hashlib.md5(password.encode()).hexdigest()
         self.key = fe.load_key()
         self.__is_authorized, self.__is_admin = self.check_login_info()
+
     @property
     def is_authorized(self):
         return self.__is_authorized
+
     @property
     def is_admin(self):
         return self.__is_admin
+
     def check_login_info(self, path_to_df="users_info.csv"):
         is_authorized = False
         is_admin = False
@@ -28,6 +27,7 @@ class User:
         fe.file_decrypt(path_to_df, self.key)
         df = pd.read_csv(path_to_df)
         fe.file_encrypt(path_to_df, self.key)
+        # TODO: добавить разные сообщения об ошибках
         for index, row in df.iterrows():
             if row['login'] == self.login:
                 if row['password'] == self.password:
@@ -37,11 +37,13 @@ class User:
         return is_authorized, is_admin
 
     def create_user(self, path_to_df="users_info.csv"):
+        # TODO: добавить сообщение об отказе в правах
         if not (self.__is_authorized and self.__is_admin):
             return
 
         fe.file_decrypt(path_to_df, self.key)
         df = pd.read_csv(path_to_df)
+        fe.file_encrypt(path_to_df, self.key)
         login = hashlib.md5(input('Введите логин').encode()).hexdigest()
         for index, row in df.iterrows():
             if row['login'] == login:
@@ -51,7 +53,11 @@ class User:
         roots = input('Права администратора [true/false]')
         ttl = input('Введите срок жизни учетной записи [%Y-%m-%d]')
 
-        df.loc[len(df.index)] = [login, password, roots, ttl]
+        new_row = pd.DataFrame({'login': [login], 'password': [password], 'is_admin': [roots], 'ttl': [ttl]})
+        df = pd.concat([df, new_row], ignore_index=True)
+
+        #df.loc[len(df.index)] = [login, password, roots, ttl]
+        fe.file_decrypt(path_to_df, self.key)
         df.to_csv(path_to_df)
         fe.file_encrypt(path_to_df, self.key)
 
@@ -62,6 +68,7 @@ class User:
         login = hashlib.md5(input('Введите логин').encode()).hexdigest()
         fe.file_decrypt(path_to_df, self.key)
         df = pd.read_csv(path_to_df)
+        fe.file_encrypt(path_to_df, self.key)
         for index, row in df.iterrows():
             if row['login'] == login:
                 df = df.drop(np.where(df['login'] == login)[0])

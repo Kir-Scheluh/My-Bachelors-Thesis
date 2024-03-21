@@ -1,10 +1,9 @@
 from search import general_search
-from get_query import get_query
 import json
 from file_encryption import file_encrypt, load_key
 
 
-def analisys(query, prompt):
+def analysis(query, prompt):
     if query != "0":
         key = load_key()
         result = general_search(prompt)

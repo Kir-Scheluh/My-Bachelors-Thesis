@@ -15,12 +15,14 @@ def get_query():
                 break
             case "2":
                 theme = input("Введите тему необходимого конспекта: ")
-                query = f'intitle:"конспект лекции" OR intitle:"конспект лекций" filetype:pdf OR filetype:doc OR filetype:docx intext:"{theme}"'
+                query = (f'intitle:"конспект лекции" OR intitle:"конспект лекций" filetype:pdf OR filetype:doc OR '
+                         f'filetype:docx intext:"{theme}"')
                 theme += ' [конспекты]'
                 break
             case "3":
                 theme = input("Введите тему презентации: ")
-                query = f'intitle:"презентация" OR intitle:"презентации" filetype:pdf OR filetype:ppt OR filetype:pptx intext:"{theme}"'
+                query = (f'intitle:"презентация" OR intitle:"презентации" filetype:pdf OR filetype:ppt OR '
+                         f'filetype:pptx intext:"{theme}"')
                 theme += ' [презентации]'
                 break
             case "0":

@@ -4,7 +4,7 @@ import requests
 import subprocess
 from urllib.parse import urlparse
 
-from analisys import analisys
+from analisis import analysis
 from get_query import get_query
 from file_encryption import file_encrypt, file_decrypt, load_key
 
@@ -19,7 +19,7 @@ def browse(query):
             flag = input()
             if flag == "y":
                 query, prompt = get_query()
-                analisys(query, prompt)
+                analysis(query, prompt)
                 return
             elif flag == "n":
                 return
@@ -52,8 +52,8 @@ def download_file(path, index):
         file_path = f".\\downloads\\{list(data.keys())[index]}{file_type}"
         if not os.path.exists(file_path):
             r = requests.get(url, stream=True)
-            with open(file_path, "wb") as f:
-                f.write(r.content)
+            with open(file_path, "wb") as f1:
+                f1.write(r.content)
             file_encrypt(file_path, key)
     file_encrypt(path, key)
     return file_path
@@ -62,13 +62,11 @@ def download_file(path, index):
 def get_file_type_from_url(url):
     parsed_url = urlparse(url)
     path = parsed_url.path
-    if ('.pdf' in path):
+    if '.pdf' in path:
         return '.pdf'
-    elif ('.ppt' in path):
+    elif '.ppt' in path:
         return '.ppt'
-    elif ('.pptx' in path):
+    elif '.pptx' in path:
         return '.pptx'
     else:
         return ''
-
-# subprocess.Popen("some_pdf", shell=True)
