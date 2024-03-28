@@ -5,8 +5,7 @@ def get_query():
         request_select = input("Выбор запроса:\n"
                                "1 - учебные пособия\n"
                                "2 - конспекты лекций\n"
-                               "3 - учебные презентации\n"
-                               "0 - выход\n")
+                               "3 - учебные презентации\n")
         match request_select:
             case "1":
                 theme = input("Введите тему учебного пособия: ")
@@ -24,8 +23,6 @@ def get_query():
                 query = (f'intitle:"презентация" OR intitle:"презентации" filetype:pdf OR filetype:ppt OR '
                          f'filetype:pptx intext:"{theme}"')
                 theme += ' [презентации]'
-                break
-            case "0":
                 break
             case _:
                 print(f"Неизвестная команда: '{request_select}'")

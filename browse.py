@@ -38,7 +38,6 @@ def browse(query):
         browse(query)
         return
     file_path = download_file(file_name, index)
-
     subprocess.Popen(file_path, shell=True)
 
 

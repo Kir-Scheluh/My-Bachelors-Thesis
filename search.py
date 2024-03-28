@@ -26,11 +26,11 @@ def general_search(query):
     for sub_dict in result.values():
         merged_dict.update(sub_dict)
     merged_dict = {key: value for key, value in merged_dict.items() if
-                     list(merged_dict.values()).count(value) == 1}
+                   list(merged_dict.values()).count(value) == 1}
 
+    result_dict = filter_pdf_urls(merged_dict)
 
-
-    return merged_dict
+    return result_dict
 
 
 def search_with(query, engine):
@@ -53,3 +53,11 @@ def clear_url(original_string):
         original_string = original_string.split(match.group())[0]
 
     return original_string
+
+
+def filter_pdf_urls(dictionary):
+    pdf_urls_dict = {}
+    for key, value in dictionary.items():
+        if re.search(r'\.pdf$', value):
+            pdf_urls_dict[key] = value
+    return pdf_urls_dict
